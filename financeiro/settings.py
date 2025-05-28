@@ -76,11 +76,11 @@ WSGI_APPLICATION = 'financeiro.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'devpeuh',
-        'PASSWORD': 'pedrolindo18',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': 'Nome_aqui',
+        'USER': 'Seu_usuario',
+        'PASSWORD': 'Sua_senha',
+        'HOST': 'localhost ou seu personalizado',
+        'PORT': 'sua porta',
     }
 }
 
