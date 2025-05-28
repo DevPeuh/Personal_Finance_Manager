@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Financeiro</title>
+</head>
+<body>
+    <header>
+        <h1>Sistema Financeiro</h1>
+        {% if user.is_authenticated %}
+            <p>Bem-vindo, {{ user.username }}! | <a href="{% url 'dashboard' %}">Dashboard</a> | <a href="{% url 'logout' %}">Sair</a></p>
+        {% endif %}
+    </header>
+    
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+    <footer>
+        <p>Sistema Financeiro &copy; {% now "Y" %}</p>
+    </footer>
+</body>
+</html>
