@@ -20,6 +20,8 @@ Sistema completo de controle financeiro pessoal, desenvolvido em Python com Djan
 - Django 5.2.1
 - PostgreSQL
 - Matplotlib
+- HTML
+- CSS
 
 ### Interface Web
 
