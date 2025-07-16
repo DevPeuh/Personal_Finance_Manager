@@ -16,8 +16,8 @@ Sistema completo de controle financeiro pessoal, desenvolvido em Python com Djan
 
 ## Tecnologias Utilizadas
 
-- Python 3.13+
-- Django 5.2.1
+- Python 
+- Django 
 - PostgreSQL
 - Matplotlib
 - HTML
