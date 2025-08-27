@@ -79,34 +79,43 @@ def criar_conta(request):
         valor_str = request.POST.get('valor')
         status = request.POST.get('status')
 
-        if not valor_str:
+        if not valor_str: # caso o campo valor esteja vazio
             return render(request, 'core/criar_conta.html', {
-                'error': 'O campo é obrigatório.',
-                'bancos': Banco.choices
+                'error': 'O campo é obrigátorio.',
+                'bancos': Banco.choices,
+                'status': Status.choices
             })
-
+        
         try:
             valor = float(valor_str)
         except ValueError:
             return render(request, 'core/criar_conta.html', {
                 'error': 'Informe um valor numérico válido.',
-            'bancos': Banco.choices
+                'bancos': Banco.choices,
+                'status': Status.choices
             })
-
+        
+        # Verifica se o usuário já tem uma conta nesse banco
         if Conta.objects.filter(usuario=request.user, banco=banco).exists():
             return render(request, 'core/criar_conta.html', {
                 'error': 'Você já tem uma conta nesse banco',
-                'bancos': Banco.choices
+                'bancos': Banco.choices,
+                'status': Status.choices
             })
         
         Conta.objects.create(
-            usuario=request.user,
+            usuario=request.user, 
             valor=valor,
-            banco=banco
+            banco=banco,
+            status=status if status else Status.ATIVO # caso não selecione, padrão ATIVO
         )
         return redirect('listar_contas')
-
-    return render(request, 'core/criar_conta.html', {'bancos': Banco.choices})
+    
+    # caso não seja POST, renderiza o formulário de criação de conta
+    return render(request, 'core/criar_conta.html', {
+        'bancos': Banco.choices, 
+        'status': Status.choices
+    })
 
 @login_required
 def listar_contas(request):
@@ -119,14 +128,14 @@ def desativar_conta(request, conta_id):
 
     if conta.status == Status.INATIVO:
         return render(request, 'core/listar_contas.html', {
-            'error': 'Essa conta já etsá desativada',
-            'contas': Conta.objects.filter(usuario=request.user)
+            'error': 'Essa conta já está desativada',
+            'contas': Conta.objects.filter(usuario=request.user) 
         })
     
     if conta.valor > 0:
         return render(request, 'core/listar_contas.html', {
             'error': 'Essa conta não pode ser desativada pois possui saldo positivo',
-            'contas': conta.objectsfilter(usuario=request.user)
+            'contas': Conta.objects.filter(usuario=request.user) 
         })
     
     conta.status = Status.INATIVO
