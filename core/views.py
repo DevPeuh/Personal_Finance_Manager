@@ -1,7 +1,8 @@
 import base64 
 from io import BytesIO 
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .models import *
 from datetime import datetime
@@ -17,26 +18,66 @@ def login_usuario(request):
     if request.method == 'POST':
         nome_usuario = request.POST.get('nome_usuario')
         senha = request.POST.get('senha')
-        usuario = authenticate(request, nome_usuario=nome_usuario, senha=senha)
+        usuario = authenticate(request, nome_usuario=nome_usuario, senha=senha) 
 
         if usuario:
             login(request, usuario)
             return redirect('dashboard')
         else:
-            if not Conta.objects.filter(usuario=usuario).exists():
-                usuario = Conta.objects.create(usuario=usuario)
-                login(request, usuario)
-                return redirect('dashboard')
-            else:
-                return render(request, 'core/login.html', {'error': 'Usuário ou senha inválidos.'})
-            
-    return render(request, 'core/login.html')
+            return render(request, 'core/dashboard.html', {'error': 'Usuário ou senha inválidos.'})
+                          
+    return render(request, 'core/login.html') # caso não seja POST, renderiza o formulário de login
+
+def cadastrar_usuario(request):
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        nome_usuario = request.POST.get('nome_usuario')
+        email = request.POST.get('email')
+        senha = request.POST.get('senha')
+        confirmar_senha = request.POST.get('confirmar_senha')
+
+        # Validações
+        if senha != confirmar_senha:
+            return render(request, 'core/cadastrar.html', {'error': 'As senhas não coincidem!'})
+        
+        if User.objects.filter(nome_usuario=nome_usuario).exists(): # Verifica se o nome de usuário já existe
+            return render(request, 'core/cadastrar.html', {'error': 'Nome de usuário já existe!'} )
+        
+        if User.objects.filter(email=email).exists():
+            return render(request, 'core/cadastrar.html', {'error': 'Email já cadastrado!'})
+        
+        # Criar usuário
+        usuario = User.objects.create_user(
+            username=nome_usuario,
+            email=email,
+            password=senha,
+            name=nome 
+        )
+
+        # Conta padrão para o usuário
+        Conta.objects.create(
+            usuario=usuario,
+            valor=0,
+            banco=Banco.NUBANK,
+            status=Status.ATIVO
+        )
+
+        # Já fazer login após cadastrar
+        login(request, usuario)
+        return redirect('dashboard')
+    
+    return render(request, 'core/cadastrar.html') # caso não seja POST, renderiza o formulário de cadastro
+
+def logout_usuario(request):
+    logout(request)
+    return redirect('login_usuario')
 
 @login_required
 def criar_conta(request):
     if request.method == 'POST':
         banco = request.POST.get('banco')
         valor_str = request.POST.get('valor')
+        status = request.POST.get('status')
 
         if not valor_str:
             return render(request, 'core/criar_conta.html', {
