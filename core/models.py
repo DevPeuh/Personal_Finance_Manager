@@ -35,7 +35,7 @@ class Conta(models.Model):
         unique_together = ('usuario', 'banco') # sem duplicar conta para o mesmo usuario
 
     def __str__(self):
-        return f'{self.banco} - R${self.valor:.2f} - {self.usuario.username}'
+        return f'{self.banco} - R${self.valor:.2f} - {self.usuario.username} - {self.status}'
     
 class Historico(models.Model):
     conta = models.ForeignKey(Conta, on_delete=models.CASCADE, related_name='Historicos')
