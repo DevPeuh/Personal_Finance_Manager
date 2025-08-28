@@ -3,23 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Financeiro</title>
+    <title>Sistema Financeiro Pessoal</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header>
-        <h1>Sistema Financeiro</h1>
-        {% if user.is_authenticated %}
-            <p>Bem-vindo, {{ user.username }}! | <a href="{% url 'dashboard' %}">Dashboard</a> | <a href="{% url 'logout' %}">Sair</a></p>
-        {% endif %}
+        <div class="container">
+            <h1><i class="fas fa-wallet"></i> Sistema Financeiro</h1>
+            {% if user.is_authenticated %}
+            <div class="info-usuario">
+                <span>Bem-vindo, {{ user.username }}!</span>
+            </div>
+            {%  endif %}
+        </div>
     </header>
     
+    {% if user.is_authenticated %}
+    <nav>
+        <div class="container">
+            <ul> 
+                <li><a href="{% url 'dashboard' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="{% url 'criar_conta' %}"><i class="fas fa-plus-cirlce"></i> Nova conta</a></li>
+                <li><a href="{% url 'listar_contas' %}"><i class="fas fa-list"></i> Minhas contas</a></li>
+                <li><a href="{% url 'movimentar_dinheiro' %}"><i class="fas fa-move"></i> Movimentar</a></li>
+                <li><a href="{% url 'transferir_saldo' %}"><i class="fas fa-transfer"></i> Transferir</a></li>
+                <li><a href="{% url 'filtrar_movimentacoes' %}"><i class="fas fa-search"></i> Histórico</a></li>
+                <li><a href="{% url 'relatorio_financeiro' %}"><i class="fas fa-report"></i> Relatórios</a></li>
+                <li><a href="{% url 'criar_grafico' %}"><i class="fas fa-graphic"></i> Gráficos</a></li>
+                <li><a href="{% url 'logout' %}"><i class="fas fa-logout"></i> Sair</a></li>
+            </ul>
+        </div>
+    </nav>
+    {% endif %}
+
     <main>
-        {% block content %}
-        {% endblock %}
+        <div class="container">
+            {% if error %}
+            <div class="alert alert-error">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            {% block content %}
+            {% endblock %}
+        </div>
     </main>
-    
+
     <footer>
-        <p>Sistema Financeiro &copy; {% now "Y" %}</p>
+        <div class="container">
+            <p>Sistemas Financeiro Pessoal &copy; {% now "Y" %} | Desenvolvido afins de estudos</p>
+        </div>
     </footer>
 </body>
 </html>

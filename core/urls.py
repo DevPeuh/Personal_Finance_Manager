@@ -14,5 +14,5 @@ urlpatterns = [
     path('historicos/filtrar/', views.filtrar_movimentacoes, name='filtrar_movimentacoes'),
     path('relatorio/', views.relatorio_financeiro, name='relatorio_financeiro'),
     path('grafico/', views.criar_grafico, name='criar_grafico'),
-    path('logout/', views.logout_usuario, name='logout_usuario'),
+    path('logout/', views.logout_usuario, name='logout'),
 ]
