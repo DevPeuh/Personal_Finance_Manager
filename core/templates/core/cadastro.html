@@ -1,0 +1,51 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-logo">
+        <h2><i class="fas fa-user"></i> Cadastro</h2>
+        <p>Crie seu cadastro para administrar saus finanças</p>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-error">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <form method="post" class="login-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="nome"><i class="fas fa-name"></i> Nome</label>
+            <input type="text" name="nome" id="name" required placeholder="Digite seu nome">
+        </div>
+
+        <div class="form-group">
+            <label for="nome_usuario"><i class="fas fa-user-name"></i> Nome do usuário</label>
+            <input type="text" name="nome_usuario" id="nome_usuario" required placeholder="Digite seu nome de usuário">
+        </div>
+
+        <div class="form-group">
+            <label for="email"><i class="fas fa-envelope"></i> Email</label>
+            <input type="text" name="email" id="email" required placeholder="Digite seu email">
+        </div>
+
+        <div class="form-group">
+            <label for="senha"><i class="fas fa-password"></i> Senha</label>
+            <input type="text" name="senha" id="senha" required placeholder="Digite sua senha">
+        </div>
+
+        <div class="form-group">
+            <label for="confirmar_senha"><i class="fas fa-user-password"></i> confirmar senha</label>
+            <input type="text" name="confirmar_senha" id="confirmar_senha" required placeholder="Confirme sua senha">
+        </div>
+
+        <div class="form-group">
+            <button></button>
+        </div>
+    </form>
+
+
+
+
+</div>
