@@ -38,13 +38,13 @@ def cadastrar_usuario(request):
 
         # Validações
         if senha != confirmar_senha:
-            return render(request, 'core/cadastrar.html', {'error': 'As senhas não coincidem!'})
+            return render(request, 'core/cadastro.html', {'error': 'As senhas não coincidem!'})
         
         if User.objects.filter(nome_usuario=nome_usuario).exists(): # Verifica se o nome de usuário já existe
-            return render(request, 'core/cadastrar.html', {'error': 'Nome de usuário já existe!'} )
+            return render(request, 'core/cadastro.html', {'error': 'Nome de usuário já existe!'} )
         
         if User.objects.filter(email=email).exists():
-            return render(request, 'core/cadastrar.html', {'error': 'Email já cadastrado!'})
+            return render(request, 'core/cadastro.html', {'error': 'Email já cadastrado!'})
         
         # Criar usuário
         usuario = User.objects.create_user(
@@ -66,11 +66,11 @@ def cadastrar_usuario(request):
         login(request, usuario)
         return redirect('dashboard')
     
-    return render(request, 'core/cadastrar.html') # caso não seja POST, renderiza o formulário de cadastro
+    return render(request, 'core/cadastro.html') # caso não seja POST, renderiza o formulário de cadastro
 
 def logout_usuario(request):
     logout(request)
-    return redirect('login_usuario')
+    return redirect('login')
 
 @login_required
 def criar_conta(request):
