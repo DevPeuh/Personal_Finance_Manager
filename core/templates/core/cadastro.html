@@ -41,11 +41,14 @@
         </div>
 
         <div class="form-group">
-            <button></button>
+            <button type="submit" class="btn btn-primay">
+                <i class="fas fa-user-plus"></i> Cadastrar
+            </button>
+        </div>
+
+        <div class="form-group text-center">
+            <p>Já tem uma conta? <a href="{% url 'login' %}">Faça login</a></p>
         </div>
     </form>
-
-
-
-
 </div>
+{% endblock %}
